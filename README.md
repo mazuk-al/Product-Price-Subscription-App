@@ -4,9 +4,9 @@
 
 The extension was developed in Laravel as a test task, in accordance with the technical requirements specified by Skif Trade.
 
-### Instruction to install
+### Installation instructions
 
-- install composer
+- Install Composer
 > sudo apt update
 >
 > sudo apt install php-cli unzip  
@@ -19,19 +19,20 @@ The extension was developed in Laravel as a test task, in accordance with the te
 > php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" 
 > 
 > sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer  
-- install git
+- Install Git
 > sudo apt install git
-- install nginx, mysql, php and php packages
+- Install Nginx, MySQL, PHP, and PHP Packages
 > sudo apt install nginx mysql-server php8.2-fpm php8.2-mysql
 >
 > sudo apt install openssl php8.2-bcmath php8.2-curl php8.2-json php8.2-mbstring php8.2-mysql php8.2-tokenizer php8.2-xml php8.2-zip
-- clone repository
+- Clone Repository
 > git clone https://github.com/mazuk-al/Product-Price-Subscription-App
-- run:
+- Run Composer:
 > cd Product-Price-Subscription-App
 > 
 > composer install
-- configure Nginx /etc/nginx/sites-available/product-price-subscription-app
+- Configure Nginx  
+  /etc/nginx/sites-available/product-price-subscription-app
 >     server {
 >         listen 8080;
 >         server_name ***domain or ip***;
@@ -50,31 +51,32 @@ The extension was developed in Laravel as a test task, in accordance with the te
 >             deny all;
 >         }
 >     }
-- make a link:
+- Create Symbolic Link:
 > sudo ln -s /etc/nginx/sites-available/product-price-subscription-app /etc/nginx/sites-enabled
-- restart nginx:
+- Restart Nginx:
 > sudo systemctl restart nginx
-- run MySQL 
+- Run MySQL 
 > service mysql start  
 > mysql -u root -p  
 > CREATE DATABASE ***product-price-subscription-app-db***;  
 > exit;
-- edit .env in root of the project:
+- Edit \`.env` in the Root of the Project:
 > DB_CONNECTION=mysql  
 > DB_HOST=127.0.0.1  
 > DB_PORT=3306  
 > DB_DATABASE=***product-price-subscription-app-db***  
 > DB_USERNAME=***root***  
 > DB_PASSWORD=***root***
-- make a migration:
+- Run Migration:
 > php artisan migrate
-- add mail credentials to .env  
-  example:
+- Add Mail Credentials to `.env`  
+  Example:
 > MAIL_MAILER=smtp  
-> MAIL_HOST=sandbox.smtp.mailtrap.io  
-> MAIL_PORT=2525  
+> MAIL_HOST=***sandbox.smtp.mailtrap.io***  
+> MAIL_PORT=***2525***  
 > MAIL_USERNAME=***username***  
 > MAIL_PASSWORD=***password***
 
-for mail tests I used **[mailtrap](https://mailtrap.io/)**
+For mail tests **[mailtrap](https://mailtrap.io/)** was used.
 
+Please replace placeholders like `***domain or ip***`, `***path-to-project***`, `***product-price-subscription-app-db***`, `***root***`, `***username***`, and `***password***` with your actual values.
