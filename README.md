@@ -1,66 +1,80 @@
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Product Price Subscription App
 
-## About Laravel
+The extension was developed in Laravel as a test task, in accordance with the technical requirements specified by Skif Trade.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Instruction to install
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- install composer
+> sudo apt update
+>
+> sudo apt install php-cli unzip  
+> 
+> cd ~  
+> curl -sS https://getcomposer.org/installer -o /tmp/composer-setup.php  
+> 
+> HASH=\`curl -sS https://composer.github.io/installer.sig`  
+> 
+> php -r "if (hash_file('SHA384', '/tmp/composer-setup.php') === '$HASH') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" 
+> 
+> sudo php /tmp/composer-setup.php --install-dir=/usr/local/bin --filename=composer  
+- install git
+> sudo apt install git
+- install nginx, mysql, php and php packages
+> sudo apt install nginx mysql-server php8.2-fpm php8.2-mysql
+>
+> sudo apt install openssl php8.2-bcmath php8.2-curl php8.2-json php8.2-mbstring php8.2-mysql php8.2-tokenizer php8.2-xml php8.2-zip
+- clone repository
+> git clone https://github.com/mazuk-al/Product-Price-Subscription-App
+- run:
+> cd Product-Price-Subscription-App
+> 
+> composer install
+- configure Nginx /etc/nginx/sites-available/product-price-subscription-app
+>     server {
+>         listen 8080;
+>         server_name ***domain or ip***;
+>         root /***path-to-project***/public;
+>         index index.php index.html index.htm;
+>         location / {
+>             try_files $uri $uri/ /index.php?$query_string;
+>         }
+>         location ~ \.php$ {
+>             include snippets/fastcgi-php.conf;
+>             fastcgi_pass unix:/var/run/php/php7.4-fpm.sock;
+>             fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+>             include fastcgi_params;
+>         }
+>         location ~ /\.ht {
+>             deny all;
+>         }
+>     }
+- make a link:
+> sudo ln -s /etc/nginx/sites-available/product-price-subscription-app /etc/nginx/sites-enabled
+- restart nginx:
+> sudo systemctl restart nginx
+- run MySQL 
+> service mysql start  
+> mysql -u root -p  
+> CREATE DATABASE ***product-price-subscription-app-db***;  
+> exit;
+- edit .env in root of the project:
+> DB_CONNECTION=mysql  
+> DB_HOST=127.0.0.1  
+> DB_PORT=3306  
+> DB_DATABASE=***product-price-subscription-app-db***  
+> DB_USERNAME=***root***  
+> DB_PASSWORD=***root***
+- make a migration:
+> php artisan migrate
+- add mail credentials to .env  
+  example:
+> MAIL_MAILER=smtp  
+> MAIL_HOST=sandbox.smtp.mailtrap.io  
+> MAIL_PORT=2525  
+> MAIL_USERNAME=***username***  
+> MAIL_PASSWORD=***password***
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+for mail tests I used **[mailtrap](https://mailtrap.io/)**
 
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
