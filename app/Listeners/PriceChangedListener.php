@@ -6,6 +6,7 @@ use App\Events\PriceChanged;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserMail;
 use App\Models\User;
+use App\Models\Product;
 
 /**
  * Class PriceChangedListener
@@ -30,12 +31,12 @@ class PriceChangedListener
     }
 
     /**
-     * @param $user
-     * @param $product
-     * @param $newPrice
+     * @param User $user
+     * @param Product $product
+     * @param float $newPrice
      * @return array
      */
-    private function prepareContentArray($user, $product, $newPrice): array
+    private function prepareContentArray(User $user, Product $product, float $newPrice): array
     {
         return [
             'name' => $user->name,

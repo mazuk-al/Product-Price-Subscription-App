@@ -32,7 +32,7 @@ class UserMail extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(): static
     {
         return $this->from('price_subscription@app.com', 'Price Subscription')
             ->view('emails.user_email', [
