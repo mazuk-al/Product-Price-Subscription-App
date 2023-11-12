@@ -4,8 +4,14 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Redirector;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Foundation\Application as ApplicationContracts;
 
 /**
  * Class CRUDController
@@ -35,8 +41,10 @@ class CRUDController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param Request $request
+     * @return View|Application|Factory|ApplicationContracts|RedirectResponse
      */
-    public function index(Request $request)
+    public function index(Request $request): View|Application|Factory|ApplicationContracts|RedirectResponse
     {
         if(Auth::check()) {
             $products = $this->product->getProducts($request->user()->id);
@@ -47,9 +55,9 @@ class CRUDController extends Controller
 
     /**
      * Show the form for creating a new resource.
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse
+     * @return ApplicationContracts|Factory|View|Application|RedirectResponse
      */
-    public function create()
+    public function create(): Application|View|Factory|RedirectResponse|ApplicationContracts
     {
         if(Auth::check()) {
             return view('products.create');
@@ -59,8 +67,10 @@ class CRUDController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @param Request $request
+     * @return Application|Redirector|RedirectResponse|ApplicationContracts
      */
-    public function store(Request $request)
+    public function store(Request $request): Application|Redirector|RedirectResponse|ApplicationContracts
     {
         $request->validate(self::VALIDATION_ARRAY);
         $this->product->createProduct($request);
@@ -69,8 +79,11 @@ class CRUDController extends Controller
 
     /**
      * Show the form for editing the specified resource.
+     * @param Request $request
+     * @param string $id
+     * @return View|Application|Factory|ApplicationContracts|RedirectResponse
      */
-    public function edit(Request $request, string $id)
+    public function edit(Request $request, string $id): View|Application|Factory|ApplicationContracts|RedirectResponse
     {
         if(Auth::check()) {
             $product = $this->product->getProduct($id, $request->user()->id);
@@ -81,8 +94,11 @@ class CRUDController extends Controller
 
     /**
      * Update the specified resource in storage.
+     * @param Request $request
+     * @param string $id
+     * @return Application|Redirector|RedirectResponse|ApplicationContracts
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id): Application|Redirector|RedirectResponse|ApplicationContracts
     {
         $request->validate(self::VALIDATION_ARRAY);
         $this->product->updateProduct($id, $request);
@@ -91,8 +107,10 @@ class CRUDController extends Controller
 
     /**
      * Remove the specified resource from storage.
+     * @param string $id
+     * @return Application|Redirector|RedirectResponse|ApplicationContracts
      */
-    public function destroy(string $id)
+    public function destroy(string $id): Application|Redirector|RedirectResponse|ApplicationContracts
     {
         $product = Product::find($id);
         $product->delete();
