@@ -3,11 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Models\User;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
+use Illuminate\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Contracts\Foundation\Application as ApplicationContracts;
 
 /**
  * Class LoginRegisterController
@@ -28,9 +33,9 @@ class LoginRegisterController extends Controller
     /**
      * Display a registration form.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Response
+     * @return ApplicationContracts|Factory|View|Application|Response
      */
-    public function register(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|Response|\Illuminate\Contracts\Foundation\Application
+    public function register(): Application|View|Factory|Response|ApplicationContracts
     {
         return view('auth.register');
     }
@@ -65,9 +70,9 @@ class LoginRegisterController extends Controller
     /**
      * Display a login form.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|Response
+     * @return ApplicationContracts|Factory|View|Application|Response
      */
-    public function login(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|Response|\Illuminate\Contracts\Foundation\Application
+    public function login(): Application|View|Factory|Response|ApplicationContracts
     {
         return view('auth.login');
     }
@@ -76,9 +81,9 @@ class LoginRegisterController extends Controller
      * Authenticate the user.
      *
      * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
+     * @return RedirectResponse
      */
-    public function authenticate(Request $request): \Illuminate\Http\RedirectResponse
+    public function authenticate(Request $request): RedirectResponse
     {
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -100,9 +105,9 @@ class LoginRegisterController extends Controller
     /**
      * Display a products to authenticated users.
      *
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View|\Illuminate\Foundation\Application|\Illuminate\Http\RedirectResponse|Response
+     * @return ApplicationContracts|Factory|View|Application|RedirectResponse|Response
      */
-    public function products(): \Illuminate\Foundation\Application|\Illuminate\Contracts\View\View|\Illuminate\Contracts\View\Factory|Response|\Illuminate\Http\RedirectResponse|\Illuminate\Contracts\Foundation\Application
+    public function products(): Application|View|Factory|Response|RedirectResponse|ApplicationContracts
     {
         if (Auth::check()) {
             return view('products.index');
